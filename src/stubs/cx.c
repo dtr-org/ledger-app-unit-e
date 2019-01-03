@@ -10,6 +10,7 @@
 #include <openssl/rand.h>
 #include <openssl/evp.h>
 #include <openssl/ec.h>
+#include <openssl/ecdsa.h>
 #include <openssl/hmac.h>
 
 #include <assert.h>
