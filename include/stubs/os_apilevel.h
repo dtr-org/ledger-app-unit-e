@@ -1,6 +1,6 @@
 /*******************************************************************************
-*   Ledger Blue - Bitcoin Wallet
-*   (c) 2016 Ledger
+*   Ledger Nano S - Secure firmware
+*   (c) 2016, 2017, 2018 Ledger
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -15,33 +15,10 @@
 *  limitations under the License.
 ********************************************************************************/
 
-#ifndef BTCHIP_H
+#ifndef OS_APILEVEL_H
+#define OS_APILEVEL_H
 
-#define BTCHIP_H
+#define CX_APILEVEL 8
+#define CX_COMPAT_APILEVEL 8
 
-#include "btchip_config.h"
-#include "os.h"
-
-#include "stdlib.h"
-#include "stdbool.h"
-
-#ifdef UNITE_TARGET_DESKTOP
-
-#include <stdio.h>
-
-void buf_print(const char* text, const uint8_t* buf, size_t size);
-
-#define L_DEBUG_APP(x) do { printf("DEBUG: "); printf x ; } while (0)
-#define L_DEBUG_NOPREFIX(x) printf x
-#define L_DEBUG_BUF(x) buf_print x
-#else
-#define L_DEBUG_APP(x)
-#define L_DEBUG_NOPREFIX(x)
-#define L_DEBUG_BUF(x)
-#endif // UNITE_TARGET_DESKTOP
-
-#define SW_TECHNICAL_DETAILS(x) BTCHIP_SW_TECHNICAL_PROBLEM
-
-#include "btchip_secure_value.h"
-
-#endif
+#endif // OS_APILEVEL_H
