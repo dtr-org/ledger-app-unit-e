@@ -33,7 +33,7 @@ APP_LOAD_FLAGS=--appFlags 0x50 --dep Bitcoin:$(APPVERSION)
 
 # simplify for tests
 ifndef COIN
-COIN=bitcoin
+COIN=unit_e_testnet
 endif
 
 ifeq ($(COIN),bitcoin_testnet)
@@ -157,9 +157,23 @@ else ifeq ($(COIN),zclassic)
 DEFINES   += COIN_P2PKH_VERSION=7352 COIN_P2SH_VERSION=7357 COIN_FAMILY=1 COIN_COINID=\"ZClassic\" COIN_COINID_HEADER=\"ZCLASSIC\" COIN_COLOR_HDR=0xc87035 COIN_COLOR_DB=0xc78457 COIN_COINID_NAME=\"ZClassic\" COIN_COINID_SHORT=\"ZCL\" COIN_KIND=COIN_KIND_ZCLASSIC
 APPNAME ="ZClassic"
 APP_LOAD_PARAMS += --path $(APP_PATH)
+else ifeq ($(COIN),unit_e)
+# Unit-e mainnet
+DEFINES   += COIN_P2PKH_VERSION=0 COIN_P2SH_VERSION=5 COIN_FAMILY=1 COIN_COINID=\"Unit-e\" COIN_COINID_HEADER=\"UNITE\" COIN_COLOR_HDR=0x02E8AF COIN_COLOR_DB=0x8DAE97 COIN_COINID_NAME=\"Unit-e\" COIN_COINID_SHORT=\"UTE\" COIN_KIND=COIN_KIND_UNIT_E
+APPNAME ="Unit-e"
+APP_LOAD_FLAGS=--appFlags 0x50
+DEFINES_LIB =
+APP_LOAD_PARAMS= --curve secp256k1 $(COMMON_LOAD_PARAMS) --path $(APP_PATH)
+else ifeq ($(COIN),unit_e_testnet)
+# Unit-e testnet
+DEFINES   += COIN_P2PKH_VERSION=111 COIN_P2SH_VERSION=196 COIN_FAMILY=1 COIN_COINID=\"Unit-e\" COIN_COINID_HEADER=\"UNITETEST\" COIN_COLOR_HDR=0x66CCFF COIN_COLOR_DB=0x8DAE97 COIN_COINID_NAME=\"Unit-e\" COIN_COINID_SHORT=\"UTE\" COIN_KIND=COIN_KIND_UNIT_E
+APPNAME ="Unit-e Test"
+APP_LOAD_FLAGS=--appFlags 0x50
+DEFINES_LIB =
+APP_LOAD_PARAMS= --curve secp256k1 $(COMMON_LOAD_PARAMS) --path $(APP_PATH)
 else
 ifeq ($(filter clean,$(MAKECMDGOALS)),)
-$(error Unsupported COIN - use bitcoin_testnet, bitcoin, bitcoin_cash, bitcoin_gold, litecoin, dogecoin, dash, zcash, horizen, komodo, stratis, peercoin, posw, pivx, viacoin, vertcoin, stealth, digibyte, qtum, hcash, bitcoin_private, zcoin, gamecredits, zclassic) 
+$(error Unsupported COIN - use bitcoin_testnet, bitcoin, bitcoin_cash, bitcoin_gold, litecoin, dogecoin, dash, zcash, horizen, komodo, stratis, peercoin, posw, pivx, viacoin, vertcoin, stealth, digibyte, qtum, hcash, bitcoin_private, zcoin, gamecredits, zclassic, unit_e, unit_e_testnet)
 endif
 endif
 
@@ -220,6 +234,9 @@ CC       := $(CLANGPATH)clang
 
 #CFLAGS   += -O0
 CFLAGS   += -O3 -Os
+CFLAGS += -nostdinc
+CFLAGS += -I$(GCCPATH)../arm-none-eabi/include
+CFLAGS += -I$(GCCPATH)../lib/gcc/arm-none-eabi/5.3.1/include
 
 AS     := $(GCCPATH)arm-none-eabi-gcc
 
@@ -247,4 +264,4 @@ include $(BOLOS_SDK)/Makefile.rules
 dep/%.d: %.c Makefile
 
 listvariants:
-	@echo VARIANTS COIN bitcoin_testnet bitcoin bitcoin_cash bitcoin_gold litecoin dogecoin dash horizen komodo stratis peercoin posw pivx viacoin vertcoin stealth digibyte qtum hcash bitcoin_private zcoin gamecredits zclassic
+	@echo VARIANTS COIN bitcoin_testnet bitcoin bitcoin_cash bitcoin_gold litecoin dogecoin dash horizen komodo stratis peercoin posw pivx viacoin vertcoin stealth digibyte qtum hcash bitcoin_private zcoin gamecredits zclassic unit_e unit_e_testnet
